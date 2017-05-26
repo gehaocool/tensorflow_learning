@@ -1,2 +1,2 @@
 # tensorflow_learning
-周莫凡的Tensorflow教程学习相关代码
+Tensorflow学习相关代码
