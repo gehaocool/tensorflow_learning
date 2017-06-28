@@ -47,6 +47,7 @@ cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=ys
                                #              reduction_indices=1))  # loss
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 sess = tf.Session()
+
 # important step
 init = tf.global_variables_initializer()
     
