@@ -27,8 +27,8 @@ def add_layer(inputs, in_size, out_size, activation_function=None,):
 
 def compute_accuracy(v_xs, v_ys):
     global prediction
-    y_pre = sess.run(prediction, feed_dict={xs: v_xs})
-    correct_prediction = tf.equal(tf.argmax(y_pre,1), tf.argmax(v_ys,1))
+    # y_pre = sess.run(prediction, feed_dict={xs: v_xs})
+    correct_prediction = tf.equal(tf.argmax(prediction,1), tf.argmax(v_ys,1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     result = sess.run(accuracy, feed_dict={xs: v_xs, ys: v_ys})
     return result
@@ -39,11 +39,12 @@ xs = tf.placeholder(tf.float32, [None, 784]) # 28x28
 ys = tf.placeholder(tf.float32, [None, 10])
 
 # add output layer
-prediction = add_layer(xs, 784, 10, activation_function=tf.nn.softmax)
+prediction = add_layer(xs, 784, 10) # , activation_function=tf.nn.softmax)
 
 # the error between prediction and real data
-cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction),
-                                              reduction_indices=1))  # loss
+cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=ys,logits=prediction))
+                               #-tf.reduce_sum(ys * tf.log(prediction),
+                               #              reduction_indices=1))  # loss
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 sess = tf.Session()
 # important step
